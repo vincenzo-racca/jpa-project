@@ -21,7 +21,6 @@ public class ContactEntity implements JpaEntity {
     @MapsId
     private UserEntity userEntity;
 
-    @Override
     public Long getId() {
         return id;
     }
