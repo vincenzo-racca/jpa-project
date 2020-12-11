@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 
-public class JpaDaoImpl<T extends JpaEntity, ID> implements JpaDao<T, ID> {
+public abstract class JpaDaoImpl<T extends JpaEntity, ID> implements JpaDao<T, ID> {
 
 
     private Class<T> persistentClass;

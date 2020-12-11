@@ -1,20 +1,20 @@
 package com.vincenzoracca.jpaproject;
 
 import com.vincenzoracca.jpaproject.daos.ArticleDao;
-import com.vincenzoracca.jpaproject.daos.AstrattaDao;
 import com.vincenzoracca.jpaproject.daos.CarDao;
 import com.vincenzoracca.jpaproject.daos.UserDao;
 import com.vincenzoracca.jpaproject.daos.impl.ArticleDaoImpl;
-import com.vincenzoracca.jpaproject.daos.impl.AstrattaDaoImpl;
 import com.vincenzoracca.jpaproject.daos.impl.CarDaoImpl;
 import com.vincenzoracca.jpaproject.daos.impl.UserDaoImpl;
-import com.vincenzoracca.jpaproject.entities.*;
+import com.vincenzoracca.jpaproject.entities.ArticleEntity;
+import com.vincenzoracca.jpaproject.entities.CarEntity;
+import com.vincenzoracca.jpaproject.entities.ContactEntity;
+import com.vincenzoracca.jpaproject.entities.UserEntity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 
@@ -24,14 +24,12 @@ public class JpaRelationsTest {
     private UserDao userDao;
     private CarDao carDao;
     private ArticleDao articleDao;
-    private AstrattaDao astrattaDao;
 
     @Before
     public void init() {
         userDao = UserDaoImpl.getInstance();
         carDao = CarDaoImpl.getInstance();
         articleDao = ArticleDaoImpl.getInstance();
-        astrattaDao = AstrattaDaoImpl.getInstance();
         System.out.println("\n*************************************************");
     }
 
@@ -39,23 +37,12 @@ public class JpaRelationsTest {
     public void destroy(){
         System.out.println("*************************************************\n");
         System.out.println("BEGIN destroy");
-        astrattaDao.clear();
         articleDao.clear();
         carDao.clear();
         userDao.clear();
         System.out.println("END destroy\n");
     }
 
-    @Test
-    public void testa() {
-        AstrattaEntity concretaEntity = new ConcretaEntity();
-        concretaEntity.setId(1L);
-        ((ConcretaEntity) concretaEntity).setName("ENZO");
-        astrattaDao.save(concretaEntity);
-
-        Collection<AstrattaEntity> all = astrattaDao.findAll();
-        System.out.println(all);
-    }
 
     @Test
     public void oneToManyTest() {

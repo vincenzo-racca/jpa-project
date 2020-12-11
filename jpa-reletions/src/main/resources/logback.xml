@@ -5,11 +5,11 @@
         </encoder>
     </appender>
 
-    <logger name="org.hibernate.transaction" level="DEBUG">
+    <logger name="org.hibernate.engine.transaction.internal" level="DEBUG" additivity="false" >
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>

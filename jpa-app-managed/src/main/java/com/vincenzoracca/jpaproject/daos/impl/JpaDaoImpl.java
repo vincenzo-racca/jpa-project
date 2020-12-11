@@ -12,7 +12,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class JpaDaoImpl<T extends JpaEntity, ID> implements JpaDao<T, ID> {
+public abstract class JpaDaoImpl<T extends JpaEntity, ID> implements JpaDao<T, ID> {
 
     protected static EntityManagerFactory entityManagerFactory;
 

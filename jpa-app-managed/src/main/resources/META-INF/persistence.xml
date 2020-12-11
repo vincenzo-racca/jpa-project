@@ -7,8 +7,6 @@
         <class>com.vincenzoracca.jpaproject.entities.CarEntity</class>
         <class>com.vincenzoracca.jpaproject.entities.ContactEntity</class>
         <class>com.vincenzoracca.jpaproject.entities.ArticleEntity</class>
-        <class>com.vincenzoracca.jpaproject.entities.AstrattaEntity</class>
-        <class>com.vincenzoracca.jpaproject.entities.ConcretaEntity</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
@@ -17,7 +15,7 @@
             <property name="javax.persistence.jdbc.user" value="sa" />
             <property name="javax.persistence.jdbc.password" value="sa" />
 
-            <!-- EclipseLink should create the database schema automatically -->
+            <!-- Hibernate create the database schema automatically -->
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
             <property name="hibernate.show_sql" value="true" />
         </properties>
