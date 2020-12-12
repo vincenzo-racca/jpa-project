@@ -96,7 +96,9 @@ public abstract class JpaDaoImpl<T extends JpaEntity, ID> implements JpaDao<T, I
         try {
             entityManager.getTransaction().begin();
             Collection<T> all = findAll();
-            all.forEach(this::delete);
+            all.stream().map(entityManager::merge)
+                    .forEach(entityManager::remove);
+
             entityManager.getTransaction().commit();
         }
         catch (Exception e) {
