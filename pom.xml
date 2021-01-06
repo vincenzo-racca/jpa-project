@@ -12,6 +12,7 @@
     <module>jpa-reletions</module>
     <module>jpa-app-managed</module>
     <module>jpa-container-managed</module>
+      <module>jpa-fetch</module>
   </modules>
 
   <name>jpa-project</name>
