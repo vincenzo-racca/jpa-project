@@ -1,5 +1,6 @@
 package com.vincenzoracca.jpaproject;
 
+import com.vincenzoracca.jpaproject.config.JpaConfig;
 import com.vincenzoracca.jpaproject.daos.CompanyDao;
 import com.vincenzoracca.jpaproject.daos.impl.CompanyDaoImpl;
 import com.vincenzoracca.jpaproject.entities.Car;
@@ -9,35 +10,44 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
+@ContextConfiguration(classes = JpaConfig.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class JpaFetchTest {
 
+    @Autowired
     private CompanyDao companyDao;
 
-    @Before
-    public void init() {
-        System.out.println("\nSTART INITIAL LOAD");
-        System.out.println("\n*************************************************");
-        companyDao = CompanyDaoImpl.getInstance();
-        for(int i = 0; i < 1000; i++) {
-            Car car = new Car(UUID.randomUUID().toString(), "FIAT" + i);
-            Car carTwo = new Car(UUID.randomUUID().toString(), "TOYOTA" + i);
-            User user = new User("name" + i, "surname" + i, "code" + i, null,
-                    Collections.singleton(car));
-            User userTwo = new User("Vito" + i, "Corleone" + i, "code" + i, null,
-                    Collections.singleton(carTwo));
-            car.setUser(user); carTwo.setUser(userTwo);
-            Company company = new Company("COMPANY" + i, "NAME" + i,
-                    new HashSet<>(Arrays.asList(user, userTwo)));
-            user.setCompany(company); userTwo.setCompany(company);
-            companyDao.save(company);
-        }
-        Assert.assertEquals(1000, companyDao.count());
-        System.out.println("\nEND INITIAL LOAD");
-        System.out.println("\n*************************************************");
-    }
+//    @Before
+//    public void init() {
+//        System.out.println("\nSTART INITIAL LOAD");
+//        System.out.println("\n*************************************************");
+//        for(int i = 0; i < 1000; i++) {
+//            Set<User> users = new HashSet<>();
+//            Company company = new Company("COMPANY" + i, "NAME" + i, null);
+//            for(int j = 0; j < 500; j++) {
+//                Car car = new Car(UUID.randomUUID().toString(), "FIAT" + i + "-" + j);
+//                Car carTwo = new Car(UUID.randomUUID().toString(), "TOYOTA" + i + "-" + j);
+//                User user = new User("name" + i + "-" + j, "surname" + i + "-" + j, "code" + i + "-" + j, company,
+//                        Collections.singleton(car));
+//                car.setUser(user); carTwo.setUser(user);
+//                users.add(user);
+//            }
+//            company.setUsers(users);
+//            companyDao.save(company);
+//        }
+//        Assert.assertEquals(1000, companyDao.count());
+//        System.out.println("\nEND INITIAL LOAD");
+//        System.out.println("\n*************************************************");
+//    }
 
 //    @After
 //    public void destroy() {
@@ -52,11 +62,21 @@ public class JpaFetchTest {
         System.out.println("\nSTART FIND BY ID");
         System.out.println("\n*************************************************");
         Company entity = companyDao.findById("COMPANY1");
-        System.out.println(entity.getUsers());
         Assert.assertNotNull(entity);
         System.out.println("\nSTOP FIND BY ID");
         System.out.println("\n*************************************************");
     }
+
+    @Test
+    public void findByIdWithSessionTest() {
+        System.out.println("\nSTART FIND BY ID SESSION");
+        System.out.println("\n*************************************************");
+        Company entity = companyDao.findByIdWithUsers("COMPANY1");
+        Assert.assertNotNull(entity);
+        System.out.println("\nSTOP FIND BY ID SESSION");
+        System.out.println("\n*************************************************");
+    }
+
 
     @Test
     public void findAllTest() {

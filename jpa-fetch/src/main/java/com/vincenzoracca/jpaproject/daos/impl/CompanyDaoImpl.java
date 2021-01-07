@@ -2,19 +2,20 @@ package com.vincenzoracca.jpaproject.daos.impl;
 
 import com.vincenzoracca.jpaproject.daos.CompanyDao;
 import com.vincenzoracca.jpaproject.entities.Company;
+import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 
+@Repository
 public class CompanyDaoImpl extends JpaDaoImpl<Company, String >implements CompanyDao {
 
-    private static CompanyDao companyDao;
-
-    private CompanyDaoImpl(){}
-
-    public static CompanyDao getInstance() {
-        if(companyDao == null) {
-            companyDao = new CompanyDaoImpl();
-        }
-        return companyDao;
+    @Override
+    @Transactional
+    public Company findByIdWithUsers(String id) {
+        Company entity = entityManager.find(Company.class, id);
+        System.out.println(entity.getUsers());
+        return entity;
     }
+
 
 }

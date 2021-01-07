@@ -23,7 +23,7 @@ public class User implements JpaEntity {
     @JoinColumn(name = "company_code", referencedColumnName = "code")
     private Company company;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Car> cars;
 
     public User() {
