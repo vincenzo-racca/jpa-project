@@ -68,12 +68,35 @@ public class JpaFetchTest {
     }
 
     @Test
-    public void findByIdWithSessionTest() {
-        System.out.println("\nSTART FIND BY ID SESSION");
+    public void findByIdWithUsersTest() {
+        System.out.println("\nSTART FIND BY ID WITH USERS");
         System.out.println("\n*************************************************");
         Company entity = companyDao.findByIdWithUsers("COMPANY1");
         Assert.assertNotNull(entity);
-        System.out.println("\nSTOP FIND BY ID SESSION");
+        System.out.println("STAMPA" + entity.getUsers());
+        System.out.println("\nSTOP FIND BY WITH USERS");
+        System.out.println("\n*************************************************");
+    }
+
+    @Test
+    public void findByIdWithUsersFetchTest() {
+        System.out.println("\nSTART FIND BY ID WITH USERS FETCH");
+        System.out.println("\n*************************************************");
+        Company entity = companyDao.findByIdWithUsersWitchFetch("COMPANY1");
+        Assert.assertNotNull(entity);
+        System.out.println("STAMPA" + entity.getUsers());
+        System.out.println("\nSTOP FIND BY WITH USERS FETCH");
+        System.out.println("\n*************************************************");
+    }
+
+    @Test
+    public void findByIdWithUsersGraphTest() {
+        System.out.println("\nSTART FIND BY ID WITH USERS GRAPH");
+        System.out.println("\n*************************************************");
+        Company entity = companyDao.findById("COMPANY1", Company.CompanyFetch.USERS);
+        Assert.assertNotNull(entity);
+        System.out.println("STAMPA" + entity.getUsers());
+        System.out.println("\nSTOP FIND BY WITH USERS GRAPH");
         System.out.println("\n*************************************************");
     }
 

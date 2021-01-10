@@ -9,7 +9,8 @@ import java.util.Set;
 @Entity
 @Table(name = "COMPANIES")
 @NamedEntityGraphs({
-        @NamedEntityGraph(name = "Company.all", includeAllAttributes = true)
+        @NamedEntityGraph(name = Company.CompanyFetch.ALL, includeAllAttributes = true),
+        @NamedEntityGraph(name = Company.CompanyFetch.USERS, attributeNodes = { @NamedAttributeNode("users")})
 })
 public class Company implements JpaEntity {
 
@@ -18,7 +19,7 @@ public class Company implements JpaEntity {
 
     private String name;
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
 //    @BatchSize(size = 50)
     private Set<User> users;
 
@@ -79,5 +80,10 @@ public class Company implements JpaEntity {
     @Override
     public int hashCode() {
         return Objects.hash(code);
+    }
+
+    public interface CompanyFetch {
+        String ALL= "Company.all";
+        String USERS = "Company.users";
     }
 }

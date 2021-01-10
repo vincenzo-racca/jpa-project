@@ -39,10 +39,20 @@ public abstract class JpaDaoImpl<T extends JpaEntity, ID> implements JpaDao<T, I
     }
 
     @Override
+    public T findById(ID id, String entityGraph) {
+        T entity = entityManager.createQuery(FIND_ALL + " where " + idField() + " = :id", persistentClass)
+                                .setParameter("id", id)
+                .setHint("javax.persistence.fetchgraph", entityManager.getEntityGraph(entityGraph))
+                .getSingleResult();
+        return entity;
+    }
+
+    @Override
     public Collection<T> findAll() {
         Collection<T> entities = entityManager.createQuery(FIND_ALL, persistentClass).getResultList();
         return entities;
     }
+
 
     @Override
     public Collection<T> findAllEager() {
@@ -97,6 +107,21 @@ public abstract class JpaDaoImpl<T extends JpaEntity, ID> implements JpaDao<T, I
             id.setAccessible(true);
 
             return (ID) id.get(entity);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String idField() {
+        try {
+            String id = Arrays.stream(persistentClass.getDeclaredFields())
+                    .filter(field -> field.isAnnotationPresent(Id.class))
+                    .findAny()
+                    .map(field -> field.getName())
+                    .orElse(null);
+
+            return id;
         }
         catch (Exception e) {
             throw new RuntimeException(e);
